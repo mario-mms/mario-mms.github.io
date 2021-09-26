@@ -1,0 +1,65 @@
+body{
+    margin: 0;
+}
+h1{
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    font-size: 3em;
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+    margin: 0;
+    padding: 10px;
+}
+nav{
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    height: 40px;
+    background-color: red;
+}
+nav div{
+    position: absolute;
+    top: 20%;
+}
+h2{
+    margin: 0;
+}
+#portada{
+    left: 12%;
+    height: 100%;
+    width: 25%;
+}
+#asgbd{
+    left: 35%;
+}
+#iaw{
+    left: 55%;
+}
+#contacto{
+    left: 75%;
+}
+section {
+    position: absolute;
+    top: 40px;
+}
+h3{
+    margin: 0;
+}
+div section{
+    display: none;
+}
+#portada:hover #desport{
+    display: inline-block;
+}
+#asgbd:hover #desasgbd{
+    display: inline-block;
+}
+#iaw:hover #desiaw{
+    display: inline-block;
+}
+
+
