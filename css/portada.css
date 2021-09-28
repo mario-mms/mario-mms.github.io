@@ -1,65 +1,66 @@
 body{
     margin: 0;
+    font-family: "Comic Sans MS";
 }
 h1{
     text-align: center;
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px;
-    font-size: 3em;
+    height: 60px;
+    font-size: 2.5em;
     color: white;
-    background-color: rgba(0,0,0,0.5);
+    background-color: black;
     margin: 0;
     padding: 10px;
+    z-index: 99;
 }
 nav{
     position: fixed;
-    top: 70px;
+    top: 80px;
+    left: 0;
     width: 100%;
-    height: 40px;
+    height: 60px;
     background-color: red;
+    z-index: 100;
 }
-nav div{
-    position: absolute;
-    top: 20%;
-}
-h2{
+nav>ul>li{
+    width: 400px;
+    display: inline-block;
+    text-align: center;
     margin: 0;
+    padding: 0;
 }
-#portada{
-    left: 12%;
-    height: 100%;
-    width: 25%;
+nav>ul>li:hover{
+    background-color: grey;
 }
-#asgbd{
-    left: 35%;
+nav>ul>li>ul>li:hover{
+    background-color: grey;
 }
-#iaw{
-    left: 55%;
-}
-#contacto{
-    left: 75%;
-}
-section {
+nav>ul>li>ul{
     position: absolute;
-    top: 40px;
-}
-h3{
-    margin: 0;
-}
-div section{
     display: none;
 }
-#portada:hover #desport{
-    display: inline-block;
+nav>ul>li>ul>li>ul{
+    position: absolute;
+    display: none;
 }
-#asgbd:hover #desasgbd{
-    display: inline-block;
+nav>ul>li:hover>ul{
+    display: block;
 }
-#iaw:hover #desiaw{
-    display: inline-block;
+nav>ul>li>ul>li{
+    display: block;
+    text-align: left;
+    width: 400px;
 }
-
+a{
+    font-size: 1.5em;
+    text-decoration: none;
+    color: black;
+}
+/*a:hover{
+    color: white;
+    letter-spacing: 2px;
+    transition: 0.5s;
+}*/
 
