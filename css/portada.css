@@ -16,7 +16,6 @@ h1{
     z-index: 99;
 }
 nav{
-    position: fixed;
     top: 80px;
     left: 0;
     width: 100%;
@@ -24,12 +23,15 @@ nav{
     background-color: red;
     z-index: 100;
 }
-nav>ul>li{
-    width: 400px;
-    display: inline-block;
-    text-align: center;
+nav ul{
     margin: 0;
     padding: 0;
+}
+nav>ul>li{
+    width: 350px;
+    display: inline-block;
+    text-align: center;
+    padding: 13.3px 0;
 }
 nav>ul>li:hover{
     background-color: grey;
@@ -39,11 +41,14 @@ nav>ul>li>ul>li:hover{
 }
 nav>ul>li>ul{
     position: absolute;
+    top: 140px;
     display: none;
 }
 nav>ul>li>ul>li>ul{
     position: absolute;
     display: none;
+    top: 0;
+    left: 100%;
 }
 nav>ul>li:hover>ul{
     display: block;
@@ -51,7 +56,19 @@ nav>ul>li:hover>ul{
 nav>ul>li>ul>li{
     display: block;
     text-align: left;
-    width: 400px;
+    width: 340px;
+    padding: 5px;
+}
+nav>ul>li>ul>li>ul>li {
+    display: block;
+    width: 340px;
+    padding: 5px;
+}
+nav>ul>li>ul>li:hover>ul{
+    display: block;
+}
+nav>ul>li>ul>li>ul>li:hover {
+    background-color: grey;
 }
 a{
     font-size: 1.5em;
