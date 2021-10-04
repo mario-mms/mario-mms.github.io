@@ -164,4 +164,7 @@ main section{
     main{
         top: 80px;
     }
+    #contacto{
+        padding: 12px 0 12px 0;
+    }
 }
