@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 body{
     margin: 0;
-    font-family: "Comic Sans MS";
+    font-family: Catamaran, SansSerif;
 }
 .velo{
     position: fixed;
@@ -14,11 +16,13 @@ body{
     z-index: 0;
 }
 nav{
+    font-family: Courgette, Cursive;
+    font-size: 1.5em;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 50px;
     background-color: red;
     z-index: 100;
 }
@@ -30,7 +34,10 @@ nav>ul>li{
     width: 350px;
     display: inline-block;
     text-align: center;
-    padding: 13.3px 0;
+    padding: 12px 0;
+}
+#contacto{
+    padding: 12px 0 8px 0;
 }
 nav>ul>li:hover{
     background-color: grey;
@@ -40,7 +47,7 @@ nav>ul>li>ul>li:hover{
 }
 nav>ul>li>ul{
     position: absolute;
-    top: 60px;
+    top: 50px;
     display: none;
     background-color: red;
 }
@@ -72,7 +79,6 @@ nav>ul>li>ul>li>ul>li:hover {
     background-color: grey;
 }
 a{
-    font-size: 1.5em;
     text-decoration: none;
     color: black;
 }
@@ -81,6 +87,30 @@ a:hover{
     letter-spacing: 2px;
     transition: 0.5s;
     font-weight: bold;
+}
+header{
+    font-family: Courgette, Cursive;
+    position: absolute;
+    background-color: white;
+    font-size: 1.2em;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+main{
+    position: absolute;
+    background-color: rgba(255,255,255,0.75);
+    top: 150px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+main section{
+    width: 700px;
 }
 @media (max-width: 1450px){
     nav>ul>li{
@@ -100,25 +130,38 @@ a:hover{
     nav>ul>li>ul>li>ul>li{
         width: 150px;
     }
+    header{
+        font-size: 0.7em;
+    }
+    main{
+        top: 100px;
+    }
 }
-@media (max-width: 450px) {
+@media (max-width: 550px) {
     nav{
         height: 40px;
+        font-size: 0.8em;
     }
     nav>ul>li{
         width: 60px;
-        font-size: 0.5em;
     }
     nav>ul>li>ul>li{
         width: 50px;
     }
     nav>ul>li>ul>li>ul>li{
-        width: 70px;
+        width: 80px;
     }
     nav>ul>li>ul{
         top: 40px;
     }
     a:hover{
         letter-spacing: 0;
+    }
+    header{
+        top: 40px;
+        font-size: 0.5em;
+    }
+    main{
+        top: 80px;
     }
 }
