@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Proyecto MR</title>
-    <link rel="stylesheet" href="/css/modulos.css">
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body>
     <div class="velo"></div>
@@ -59,8 +59,518 @@
     </header>
 <main>
     <section>
+        <p>Para crear una base de datos desde cero, debemos seguir el siguiente procedimiento:</p>
+        <ol>
+            <li>Analizar los datos que vamos a tener que introducir</li>
+            <li id="esquema">Dibujar el esquema de la base de datos con el modelo relacional. (Ver esquema)
+                <img src="/img/proyecto0.png" alt="esquema">
+            </li>
+            <li id="creacion">Crear las tablas con sus nombres, columnas, tipos de datos y restricciones apropiadas (Ver código)
+                <code>
+                    create table canales (
+                    id_canal number(2) constraint canales_pk1 primary key ,
+                    nombre varchar2(50) constraint canales_uk1 unique constraint canales_nn1 not null
+                    );
+                    create table categoria(
+                    id_categoria number(1) constraint categoria_pk1 primary key ,
+                    recomendado varchar2(3) constraint categoria_uk1 unique constraint categoria_nn1 not null
+                    );
+                    create table programas(
+                    id_programa number(5) constraint programas_pk1 primary key ,
+                    id_canal number(2) constraint programas_fk1 references canales on delete cascade ,
+                    nombre varchar2(50) constraint programas_nn1 not null,
+                    constraint programas_uk1 unique (id_canal,nombre)
+                    );
+                    alter table programas modify (
+                    id_canal constraint programas_nn3 not null
+                    );
+                    create table capitulos(
+                    id_emision number(10) constraint capitulos_pk1 primary key ,
+                    id_programa number(5) constraint capitulos_fk1 references programas on delete cascade ,
+                    n_capitulo number(5),
+                    titulo varchar2(100),
+                    descripcion varchar2(200),
+                    id_categoria number(1) constraint programas_fk2 references categoria
+                    );
+                    alter table capitulos modify (
+                    id_programa constraint capitulos_nn1 not null ,
+                    id_categoria constraint capitulos_nn2 not null
+                    );
+                    create table emision(
+                    id_emision number(10) constraint emision_pk1 primary key
+                    constraint emision_fk1 references capitulos(id_emision) on delete cascade,
+                    fecha_inicio timestamp constraint emision_nn1 not null ,
+                    fecha_fin timestamp constraint emision_nn2 not null
+                    );
+                </code>
+            </li>
+            <li id="introduccion">Introducción de los datos (Ver código)
+                <code>
+                    insert into canales
+                    values (1,'La1');
+                    insert into canales
+                    values (2,'TDP');
+                    commit;
+                    insert into categoria
+                    values (0,'SC');
+                    insert into categoria
+                    values (1,'TP');
+                    insert into categoria
+                    values (2,'+7');
+                    insert into categoria
+                    values (3,'+12');
+                    insert into categoria
+                    values (4,'+16');
+                    insert into categoria
+                    values (5,'+18');
+                    commit ;
+                    insert into programas
+                    values (1,1,'Telediario matinal');
+                    insert into programas
+                    values (2,1,'La hora de la 1');
+                    insert into programas
+                    values (3,1,'Mejor contigo');
+                    insert into programas
+                    values (4,1,'Informativo territorial 1');
+                    insert into programas
+                    values (5,1,'Telediario 1');
+                    insert into programas
+                    values (6,1,'Informativo territorial 2');
+                    insert into programas
+                    values (7,1,'El tiempo');
+                    insert into programas
+                    values (8,1,'Dos vidas');
+                    insert into programas
+                    values (9,1,'Servir y proteger');
+                    insert into programas
+                    values (10,1,'El cazador');
+                    insert into programas
+                    values (11,1,'España directo');
+                    insert into programas
+                    values (12,1,'Aquí la tierra');
+                    insert into programas
+                    values (13,1,'Telediario 2');
+                    insert into programas
+                    values (14,1,'Viaje al centro de la tele (Expres)');
+                    insert into programas
+                    values (15,1,'Cine');
+                    insert into programas
+                    values (16,1,'Españoles en el mundo');
+                    insert into programas
+                    values (17,1,'La noche en 24H');
+                    insert into programas
+                    values (18,1,'Noticias 24H');
+                    insert into programas
+                    values (19,1,'La suerte en tus manos');
+                    insert into programas
+                    values (20,1,'Néboa');
+                    alter table programas add (
+                    serie varchar2(2) default 'No' constraint programas_nn2 not null constraint programas_ck1 check ( serie='Si' or serie='No' )
+                    );
+                    update programas set serie='Si' where nombre='Dos vidas' or nombre='Servir y proteger';
+                    commit ;
+                    insert into programas
+                    values (21,2,'Tenis');
+                    insert into programas
+                    values (22,2,'Piragüismo');
+                    insert into programas
+                    values (23,2,'Baloncesto');
+                    insert into programas
+                    values (24,2,'Balonmano');
+                    insert into programas
+                    values (25,2,'Estudio estadio 2021-2022');
+                    insert into programas
+                    values (26,2,'Varios');
+                    insert into programas
+                    values (27,2,'Ciclismo');
+                    insert into programas
+                    values (28,2,'Conexion Vintage 2021');
+                    insert into programas
+                    values (29,2,'Triatlon');
+                    insert into programas
+                    values (30,2,'Trail');
+                    insert into programas
+                    values (31,2,'Motonautica');
+                    insert into programas
+                    values (32,2,'Vela');
+                    insert into programas
+                    values (33,2,'Motociclismo');
+                    insert into programas
+                    values (34,2,'Automovilismo');
+                    insert into programas
+                    values (35,2,'Reportajes Teledeporte');
+                    insert into programas
+                    values (36,2,'Surf');
+                    insert into programas
+                    values (37,2,'Alvarez cafe 2021');
+                    insert into programas
+                    values (38,2,'Hipica');
+                    insert into programas
+                    values (39,2,'Natación');
+                    commit ;
+                    insert into capitulos
+                    values (1,1,157,null,'Espacio de información diaria con noticias nacionales e internacionales',0);
+                    insert into emision
+                    values (1,to_date('30/9/2021 06:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 08:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (2,2,308,null,'La hora de la 1" es un programa magacine, en el que se aborda la actualidad política y social.',2);
+                    insert into emision
+                    values (2,to_date('30/9/2021 08:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 10:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (3,2,364,null,'La hora de la 1" es un programa magacine, en el que se aborda la actualidad política y social.',4);
+                    insert into emision
+                    values (3,to_date('30/9/2021 10:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 12:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (4,3,14,null,'Un programa magazine de sociedad y cultura, del género conversación, que busca el acercamiento y la intimidad con creadores famosos y con gente con hi',2);
+                    insert into emision
+                    values (4,to_date('30/9/2021 12:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 14:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (5,4,null,null,null,0);
+                    insert into emision
+                    values (5,to_date('30/9/2021 14:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 14:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (6,3,14,null,'Un programa magazine de sociedad y cultura, del género conversación, que busca el acercamiento y la intimidad con creadores famosos y con gente con hi',2);
+                    insert into emision
+                    values (6,to_date('30/9/2021 14:20','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 15:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (7,5,273,null,null,0);
+                    insert into emision
+                    values (7,to_date('30/9/2021 15:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 15:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (8,6,null,null,null,0);
+                    insert into emision
+                    values (8,to_date('30/9/2021 15:55','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 16:15','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (9,7,639,null,'Incluye: El tiempo mediodia',0);
+                    insert into emision
+                    values (9,to_date('30/9/2021 16:15','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 16:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (10,8,167,null,'La historia se cuenta a través de dos protagonistas femeninas, Carmen (25) y Julia (36), que viven en dos continentes en dos épocas muy diferentes.',2);
+                    insert into emision
+                    values (10,to_date('30/9/2021 16:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 17:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (11,9,259,null,'Serie diaria que aborda el día a día de una comisaría de barrio en una ciudad española.',2);
+                    insert into emision
+                    values (11,to_date('30/9/2021 17:25','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 18:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (12,10,358,null,'El Cazador, un formato en el que cuatro concursantes anónimos unen sus conocimientos para ganar al cazador, un auténtico profesional de los concursos',1);
+                    insert into emision
+                    values (12,to_date('30/9/2021 18:25','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 19:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (13,11,954,null,'Magacine de actualidad de las tardes de La 1',1);
+                    insert into emision
+                    values (13,to_date('30/9/2021 19:20','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 20:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (14,12,231,null,'Magacine de naturaleza e información meteorológica',1);
+                    insert into emision
+                    values (14,to_date('30/9/2021 20:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 21:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (15,13,273,null,'Incluye: el tiempo',1);
+                    insert into emision
+                    values (15,to_date('30/9/2021 21:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 22:10','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (16,14,95,null,'Un divertido y sorprendente recorrido por las primeras apariciones en Televisión Española de actores, cantantes, políticos y famosos de todo cuño.',1);
+                    insert into emision
+                    values (16,to_date('30/9/2021 22:10','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 22:35','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (17,15,null,'Driven: El origen de la leyenda','Para salvar su empresa, John DeLorean, ejecutivo de la industria del automóvil, recurre al negocio de la droga aconsejado por un informante del FBI.',4);
+                    insert into emision
+                    values (17,to_date('30/9/2021 22:35','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 00:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (18,16,89,'Islas de Tahití','Visitamos Las Islas de Tahití.',2);
+                    insert into emision
+                    values (18,to_date('1/10/2021 00:20','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 01:14','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (19,16,66,'Venecia y El Friuli','Hoy visitamos Venecia: con Eugenia, Daniel y Montse conocemos Burano y Murano. Vemos la preparación del Carnaval y conocemos la Fiesta del Agua.',2);
+                    insert into emision
+                    values (19,to_date('1/10/2021 01:14','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 02:10','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (20,16,22,'Zanzíbar','Con los españoles que viven en Zanzibar vamos a a reserva marina de Mnemba; nos embarcamos en los típicos dhow; nadamos con delfines; visitamos Stone',2);
+                    insert into emision
+                    values (20,to_date('1/10/2021 02:10','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 03:05','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (21,17,726,null,'Informativo diario en el que se repasa y analiza la actualidad del día.',1);
+                    insert into emision
+                    values (21,to_date('1/10/2021 03:05','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 04:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (22,18,273,null,null,1);
+                    insert into emision
+                    values (22,to_date('1/10/2021 04:55','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 06:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (23,1,158,null,null,1);
+                    insert into emision
+                    values (23,to_date('1/10/2021 06:00','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 08:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (24,2,365,null,'"La hora de la 1" es un programa magacine, en el que se aborda la actualidad política y social.',2);
+                    insert into emision
+                    values (24,to_date('1/10/2021 08:30','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 10:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (25,2,427,null,'"La hora de la 1" es un programa magacine, en el que se aborda la actualidad política y social.',4);
+                    insert into emision
+                    values (25,to_date('1/10/2021 10:00','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 12:30','dd/mm/yyyy hh24:mi'));
+                    commit ;
+                    insert into capitulos
+                    values (26,3,15,null,'Un programa magazine de sociedad y cultura, del género conversación, que busca el acercamiento y la intimidad con creadores famosos y con gente con hi',2);
+                    insert into emision
+                    values (26,to_date('1/10/2021 12:30','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 14:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (27,4,null,null,null,1);
+                    insert into emision
+                    values (27,to_date('1/10/2021 14:00','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 14:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (28,3,15,null,'Un programa magazine de sociedad y cultura, del género conversación, que busca el acercamiento y la intimidad con creadores famosos y con gente con hi',2);
+                    insert into emision
+                    values (28,to_date('1/10/2021 14:20','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 15:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (29,5,274,null,null,1);
+                    insert into emision
+                    values (29,to_date('1/10/2021 15:00','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 15:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (30,6,null,null,null,1);
+                    insert into emision
+                    values (30,to_date('1/10/2021 15:55','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 16:15','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (31,7,640,null,'Incluye: el tiempo mediodía',1);
+                    insert into emision
+                    values (31,to_date('1/10/2021 16:15','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 16:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (32,8,168,null,'La historia se cuenta a través de dos protagonistas femeninas, Carmen (25) y Julia (36), que viven en dos continentes en dos épocas muy diferentes.',2);
+                    insert into emision
+                    values (32,to_date('1/10/2021 16:30','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 17:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (33,9,260,null,'Serie diaria que aborda el día a día de una comisaría de barrio en una ciudad española',2);
+                    insert into emision
+                    values (33,to_date('1/10/2021 15:25','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 18:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (34,10,365,null,'El Cazador, un formato en el que cuatro concursantes anónimos unen sus conocimientos para ganar al cazador, un auténtico profesional de los concursos',1);
+                    insert into emision
+                    values (34,to_date('1/10/2021 18:25','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 19:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (35,11,1,null,'Magacine de actualidad de las tardes de La 1',1);
+                    insert into emision
+                    values (35,to_date('1/10/2021 19:20','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 20:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (36,12,232,null,'Magacine de naturaleza e información meteorológica',1);
+                    insert into emision
+                    values (36,to_date('1/10/2021 20:30','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 21:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (37,13,274,null,'Incluye: el tiempo',1);
+                    insert into emision
+                    values (37,to_date('1/10/2021 21:00','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 21:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (38,19,196,null,'Programa dedicado a las actividades de SELAE',1);
+                    insert into emision
+                    values (38,to_date('1/10/2021 21:55','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 22:10','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (39,15,null,'La canción de los nombres olvidados','En pleno estallido de la Segunda Guerra Mundial, el pequeño Dovidl llega a Londres como refugiado judío desde su Polonia natal.',2);
+                    insert into emision
+                    values (39,to_date('1/10/2021 22:10','dd/mm/yyyy hh24:mi'),to_date('1/10/2021 23:50','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (40,15,null,'Clara Campoamor, la mujer olvidada','La historia de la lucha de Clara Campoamor, la mujer que consiguió el sufragio femenino en España',1);
+                    insert into emision
+                    values (40,to_date('1/10/2021 23:50','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 01:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (41,20,null,null,null,4);
+                    insert into emision
+                    values (41,to_date('02/10/2021 01:25','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 02:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (42,18,null,null,null,1);
+                    insert into emision
+                    values (42,to_date('02/10/2021 02:25','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 6:00','dd/mm/yyyy hh24:mi'));
+                    commit ;
+                    insert into capitulos
+                    values (43,21,5,'ATP 250 Sofia 2021','Tenis Atp 250 Sofia I. Yvashka - P. Andujar',1);
+                    insert into emision
+                    values (43,to_date('30/9/2021 06:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 07:40','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (44,22,6,'CTOS MUNDO SLALOM 2019 - LA SEU D''URGELL','Piraguismo Cto Mundo Slalom Finales Slalom Extremo',1);
+                    insert into emision
+                    values (44,to_date('30/9/2021 07:40','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 08:50','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (45,23,229,'Sup.Copa Y Liga Femenina 2017-18 (2017)','Baloncesto Liga Fem. J2 Ynsadiet Leganes-B. Ferrol',1);
+                    insert into emision
+                    values (45,to_date('30/9/2021 08:50','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 10:25','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (46,24,3,'Reportajes Guerreras Dhf 21-22 (2021)','Balonmano Femenino - Reportajes Guerreras DHF - Temporada 2021-2022',1);
+                    insert into emision
+                    values (46,to_date('30/9/2021 10:25','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 10:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (47,25,30,'Temporada 2021-2022','Estudio Estadio 2021-2022 Año 2021',1);
+                    insert into emision
+                    values (47,to_date('30/9/2021 10:55','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 12:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (48,26,460,'Teledeporte 2021','Incluye: FUTBOL RP ENRIQUE PREVIA FINAL COPA NACIONES',1);
+                    insert into emision
+                    values (48,to_date('30/9/2021 12:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 13:15','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (49,21,8,'ATP 250 Sofia 2021','Tenis Atp 250 Sofia J. Duckworth - B. Paire',1);
+                    insert into emision
+                    values (49,to_date('30/9/2021 13:15','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 15:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (50,21,7,'ATP 250 Sofia 2021','Tenis Atp 250 Sofia M. Giron - A. De Minaur',1);
+                    insert into emision
+                    values (50,to_date('30/9/2021 15:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 17:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (51,21,1,'TORNEO 25 ANIVERSARIO EQUELITE','Tenis Torneo Juan Carlos Ferrero Equalite Sf',1);
+                    insert into emision
+                    values (51,to_date('30/9/2021 17:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 18:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (52,26,460,'Teledeporte 2021','Incluye: FUTBOL RP ENRIQUE PREVIA FINAL COPA NACIONES',1);
+                    insert into emision
+                    values (52,to_date('30/9/2021 18:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 18:45','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (53,21,2,'TORNEO 25 ANIVERSARIO EQUELITE','Tenis Torneo Juan Carlos Ferrero Equalite Sf',1);
+                    insert into emision
+                    values (53,to_date('30/9/2021 18:45','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 20:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (54,21,190,'Wta Torneos 2021','Tenis Wta 500 Chicago E. Svitolina - E. Ruse',1);
+                    insert into emision
+                    values (54,to_date('30/9/2021 20:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 21:45','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (55,26,460,'Teledeporte 2021','Incluye: FUTBOL RP ENRIQUE PREVIA FINAL COPA NACIONES',1);
+                    insert into emision
+                    values (55,to_date('30/9/2021 21:45','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 22:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (56,21,191,'Wta Torneos 2021','Tenis Wta 500 Chicago V. Azarenka - G. Muguruza',1);
+                    insert into emision
+                    values (56,to_date('30/9/2021 22:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 23:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (57,25,31,'Año 2021',null,1);
+                    insert into emision
+                    values (57,to_date('30/9/2021 23:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 00:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (58,21,1,'TORNEO 25 ANIVERSARIO EQUELITE','Tenis Torneo Juan Carlos Ferrero Equalite Sf',1);
+                    insert into emision
+                    values (58,to_date('01/10/2021 00:30','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 01:45','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (59,21,2,'TORNEO 25 ANIVERSARIO EQUELITE','Tenis Torneo Juan Carlos Ferrero Equalite Sf',1);
+                    insert into emision
+                    values (59,to_date('01/10/2021 01:45','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 03:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (60,28,13,'Año 2021','Conexion Vintage L. Cuningham, Leyenda Sin Suerte',1);
+                    insert into emision
+                    values (60,to_date('01/10/2021 03:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 05:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (61,24,3,'Balonmano Reportajes Guerreras Dhf 21-22 (2021)','Balonmano Femenino - Reportajes Guerreras DHF - Temporada 2021-202',1);
+                    insert into emision
+                    values (61,to_date('01/10/2021 05:30','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 06:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (62,23,228,'Baloncesto Sup.Copa Y Liga Femenina 2017-18 (2017)','Baloncesto Liga Fem. J2 Ynsadiet Leganes-B. Ferrol',1);
+                    insert into emision
+                    values (62,to_date('01/10/2021 06:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 07:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (63,21,190,'WTA Torneos 2021','Tenis Wta 500 Chicago E. Svitolina - E. Ruse',1);
+                    insert into emision
+                    values (63,to_date('01/10/2021 07:20','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 09:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (64,21,191,'WTA Torneos 2021','Tenis Wta 500 Chicago V. Azarenka - G. Muguruza',1);
+                    insert into emision
+                    values (64,to_date('01/10/2021 09:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 10:40','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (65,21,16,'Tenis Programa Tierra De Campeones 2021','TENIS PROGRAMA TIERRA DE CAMPEONES 2021 (ACTUALIDAD MUNDO TENIS RFET)',1);
+                    insert into emision
+                    values (65,to_date('01/10/2021 10:40','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 10:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (66,29,27,'Triatlon Acont Fed Española 2021','TRIATLON CAMPEONATO DE EUROPA',1);
+                    insert into emision
+                    values (66,to_date('01/10/2021 10:55','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 11:10','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (67,26,1,'Copa del Mundo de Cuadratlón.',null,1);
+                    insert into emision
+                    values (67,to_date('01/10/2021 11:10','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 11:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (68,27,5,'GRAN PREMIO PARACYCLING DSTREL',null,1);
+                    insert into emision
+                    values (68,to_date('01/10/2021 11:20','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 11:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (69,25,31,'Año 2021',null,1);
+                    insert into emision
+                    values (69,to_date('01/10/2021 11:30','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 13:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (70,21,9,'ATP 250 Sofia 2021','Tenis Atp 250 Sofia 2021 1/4 Final',1);
+                    insert into emision
+                    values (70,to_date('01/10/2021 13:00','dd/mm/yyyy hh24:mi'),to_date('30/9/2021 17:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (71,21,4,'REPORTAJES RFET 2021',null,1);
+                    insert into emision
+                    values (71,to_date('01/10/2021 15:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 15:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (72,30,5,'Ultratrail Guara Somontano 2021',null,1);
+                    insert into emision
+                    values (72,to_date('01/10/2021 15:20','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 15:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (73,31,5,'Acont Fed Española 2021',null,1);
+                    insert into emision
+                    values (73,to_date('01/10/2021 15:30','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 15:45','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (74,30,1,'Dels Fars Nocturno 2021',null,1);
+                    insert into emision
+                    values (74,to_date('01/10/2021 15:45','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 16:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (75,32,12,'Ultratrail Guara Somontano 2021','Reportajes Tactic Sport 1er Semestre 2021',1);
+                    insert into emision
+                    values (75,to_date('01/10/2021 16:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 16:15','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (76,33,33,'Acont Federacion Española 2021',null,1);
+                    insert into emision
+                    values (76,to_date('01/10/2021 16:15','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 16:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (77,34,25,'Acont Fed Española 2021 Resumenes',null,1);
+                    insert into emision
+                    values (77,to_date('01/10/2021 16:30','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 17:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (78,21,3,'Torneo Juan Carlos Ferrero Equalite','Tenis Jc Ferrero Equalite Homenaje Carla Suarez',1);
+                    insert into emision
+                    values (78,to_date('01/10/2021 17:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 18:50','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (79,21,4,'Torneo Juan Carlos Ferrero Equalite','Tenis Torneo Juan Carlos Ferrero Equalite Final',1);
+                    insert into emision
+                    values (79,to_date('01/10/2021 18:50','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 20:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (80,34,28,'EXTREME E: HIGHLIGHTS Y MAGAZINES',null,1);
+                    insert into emision
+                    values (80,to_date('01/10/2021 20:30','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 20:55','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (81,24,5,'Femenino Supercopa Y Liga 21-22 (2021)','Balonmano Liga Guerreras J4 Sant Quirze - Malaga',1);
+                    insert into emision
+                    values (81,to_date('01/10/2021 20:55','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 22:35','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (82,35,665,'2021','CICLISMO SERGIO GARROTE',1);
+                    insert into emision
+                    values (82,to_date('01/10/2021 22:35','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 22:45','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (83,36,24,'Acont Federacion Española 2021',null,1);
+                    insert into emision
+                    values (83,to_date('01/10/2021 22:45','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 23:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (84,37,15,null,'Hoy entrevistamos en Álvarez Café a José Javier Hombrados, exportero de balonmano que ostenta el récord de partidos jugados en la liga española',1);
+                    insert into emision
+                    values (84,to_date('01/10/2021 23:00','dd/mm/yyyy hh24:mi'),to_date('01/10/2021 23:30','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (85,21,192,'WTA TORNEOS 2021','Tenis Wta 500 Chicago 1/4 Final',1);
+                    insert into emision
+                    values (85,to_date('01/10/2021 23:30','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 01:00','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (86,39,null,'COPA DEL MUNDO FINALES',null,1);
+                    insert into emision
+                    values (86,to_date('02/10/2021 01:00','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 02:50','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (87,38,null,'Final Copa Naciones 2021',null,1);
+                    insert into emision
+                    values (87,to_date('02/10/2021 02:50','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 04:20','dd/mm/yyyy hh24:mi'));
+                    insert into capitulos
+                    values (88,21,null,'Torneo Juan Carlos Ferrero Equalite','TENIS JC FERRERO EQUALITE HOMENAJE CARLA SUAREZ',1);
+                    insert into emision
+                    values (88,to_date('02/10/2021 04:20','dd/mm/yyyy hh24:mi'),to_date('02/10/2021 06:00','dd/mm/yyyy hh24:mi'));
+                    commit ;
+                </code>
+            </li>
+            <li>Creación de vistas para manejar con facilidad la base de datos
 
+            </li>
+        </ol>
     </section>
+
 </main>
 </body>
 </html>
