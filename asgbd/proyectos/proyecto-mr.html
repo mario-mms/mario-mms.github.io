@@ -65,7 +65,7 @@
             <li id="esquema">Dibujar el esquema de la base de datos con el modelo relacional. (Acercar ratón para ver el esquema)
                 <img src="/img/proyecto0.png" alt="esquema">
             </li>
-            <li id="creacion">Crear las tablas con sus nombres, columnas, tipos de datos y restricciones apropiadas.
+            <li>Crear las tablas con sus nombres, columnas, tipos de datos y restricciones apropiadas.
                 <code>create table canales (
                     id_canal number(2) constraint canales_pk1 primary key ,
                     nombre varchar2(50) constraint canales_uk1 unique constraint canales_nn1 not null
@@ -102,7 +102,7 @@
                     fecha_fin timestamp constraint emision_nn2 not null
                     );</code>
             </li>
-            <li id="introduccion">Introducción de los datos.
+            <li>Introducción de los datos.
                 <code>insert into canales
                     values (1,'La1');
                     insert into canales
@@ -607,7 +607,7 @@
                     join canales c using (id_canal);
                     /*En la vista indico el día concreto*/
                     select programa,canal from vista6
-                    where fecha_inicio<to_date('30/09/2021 7:00','dd/mm/yyyy hh24/mi') and fecha_fin>to_date('30/09/2021 7:00','dd/mm/yyyy hh24/mi');</code>
+                    where fecha_inicio<=to_date('30/09/2021 7:00','dd/mm/yyyy hh24/mi') and fecha_fin>to_date('30/09/2021 7:00','dd/mm/yyyy hh24/mi');</code>
             </li>
         </ol>
     </section>
